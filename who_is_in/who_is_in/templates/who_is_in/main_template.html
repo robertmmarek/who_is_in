@@ -12,7 +12,30 @@
             <div class="row justify-content-center">
                 {% block menu %}
                 <div class="col-sm-12 col-md-10 col-lg-10 col-xl-10">
-                    aaaa
+                    <ul class="nav nav-pills justify-content-center">
+                        {% if isUserLogged %}
+                        <li class="nav-item">
+                            <a class="nav-link {% if path_name == 'logout' %}active{% endif %}" href="{% url 'logout' %}">LOGOUT</a>
+                        </li>
+                        {% else %}
+                        <li class="nav-item">
+                            <a class="nav-link {% if path_name == 'login' %}active{% endif %}" href="{% url 'login' %}">LOGIN</a>
+                        </li>
+                        {% endif %}
+                        <li class="nav-item">
+                            <a class="nav-link {% if path_name == 'index' %}active{% endif %}" href="{% url 'index' %}">HOME</a>
+                        </li>
+                        {% if isUserLogged %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'board' %}">BOARD</a>
+                        </li>
+                        {% endif %}
+                        {% if isUserLogged %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'profile' %}">PROFILE</a>
+                        </li>
+                        {% endif %}
+                    </ul>
                 </div>
                 {% endblock %}
             </div>
