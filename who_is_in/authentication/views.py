@@ -12,14 +12,18 @@ def login_user(request):
     user = None
     response = HttpResponse('')
     isFormCorrect = set(['login', 'password']).issubset(request.POST.keys())
+    isLoginCorrect = False
     if isFormCorrect:
         user = authenticate(username=request.POST['login'], password=request.POST['password'])
-    
     if user != None:
-        response = HttpResponseRedirect(reverse('index'))
+        isLoginCorrect = True
         login(request, user)
     else:
-        response = HttpResponse('login incorrect')
+        isLoginCorrect = False
+
+    response = render(request, "login.html", {'isLoginCorrect': isLoginCorrect, 
+                                              'isFormCorrect': isFormCorrect, 
+                                              'path_name': 'login'})
 
     return response
 
