@@ -21,9 +21,14 @@ def login_user(request):
     else:
         isLoginCorrect = False
 
-    response = render(request, "login.html", {'isLoginCorrect': isLoginCorrect, 
-                                              'isFormCorrect': isFormCorrect, 
-                                              'path_name': 'login'})
+   
+    
+    if isLoginCorrect:
+        response = HttpResponseRedirect(reverse('index'))
+    else:
+        response = render(request, "login.html", {'isLoginCorrect': isLoginCorrect, 
+                                                  'isFormCorrect': isFormCorrect, 
+                                                  'path_name': 'login'})
 
     return response
 
