@@ -1,7 +1,7 @@
 from django.db.utils import IntegrityError as IntegrityError
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
-from django.contrib.auth.models import User, Group
+from django.contrib.auth.models import User, Group, UserManager
 from django.contrib.auth import authenticate, login, logout
 from django.urls import reverse
 
@@ -40,24 +40,34 @@ def logout_user(request):
 def register_user(request):
     isFormCorrect = set(['login', 'password']).issubset(request.POST.keys())
     isLoginUnique = True
+    isRegistrationSuccess = False
+    registrationFailureReason = ""
     user = None
     response = HttpResponse('')
 
     if isFormCorrect:
         try:
-            user = User.objects.create_user(request.POST['login'], password=request.POST['password'])
-            group = Group.objects.get('default')
-            group.user_set.add(user)
-            group.save()
+            user = User.objects.create_user(username=request.POST['login'], password=request.POST['password'])
+            user.save()
         except IntegrityError as e:
+            registrationFailureReason = "username is not unique"
             isLoginUnique = False
         except Exception as e:
-            print(e)
+            registrationFailureReason = "unknown: "+str(e)
 
     if user != None:
-        user.save()
+        logout(request)
+        login(request, user)
+        isRegistrationSuccess = True
+
+    if isRegistrationSuccess:
+        response = HttpResponseRedirect(reverse('index'))
     else:
-        response = HttpResponse('incorrect registration')
+        response = render(request, 'register.html', {'isFormCorrect': isFormCorrect, 
+                                                     'isLoginCorrect': request.user.is_authenticated, 
+                                                     'isRegistractionSuccess': isRegistrationSuccess,
+                                                     'registrationFailureReason': registrationFailureReason,
+                                                     'path_name': 'register'})
 
     return response
 

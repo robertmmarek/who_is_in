@@ -21,6 +21,9 @@
                         <li class="nav-item">
                             <a class="nav-link {% if path_name == 'login' %}active{% endif %}" href="{% url 'login' %}">LOGIN</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link {% if path_name == 'register' %}register{% endif %}" href="{% url 'register' %}">REGISTER</a>
+                        </li>
                         {% endif %}
                         <li class="nav-item">
                             <a class="nav-link {% if path_name == 'index' %}active{% endif %}" href="{% url 'index' %}">HOME</a>

@@ -1,0 +1,43 @@
+{% extends "main_template.html" %}
+{% load static %}
+
+{% block title %}
+Register
+{% endblock title %}
+
+{% block content %}
+
+
+<div class="container">
+{% if not isLoginCorrect %}
+    <form action="{% url 'register' %}" method="post" class="needs-validation" id="repeatPasswordForm">{% csrf_token %}
+        <div class="form-group">
+            <label for="loginInput">Login:</label>
+            <input type="text" id="loginInput" placeholder="user login" class="form-control" name="login" required>
+        </div>
+        <div class="form-group">
+            <label for="passwordInput">Password:</label>
+            <input type="password" id="passwordInput" placeholder="user password" class="form-control" name="password" required>
+        </div>
+        <div class="form-group">
+            <label for="passwordInput">Repeat password:</label>
+            <input type="password" id="repeatPasswordInput" placeholder="repeat password" class="form-control" name="passwordRepeat" required>
+            <div class="invalid-feedback">
+                
+            </div>
+        </div>
+        <div class="form-row justify-content-center">
+            <button type="submit" class="btn btn-primary">REGISTER</button>
+        </div>
+    </form>
+    <script src="{% static 'checkIfPasswordRepeated.js' %}"></script>
+{% endif %}
+{% if not isRegistrationSuccess and isFormCorrect %}
+    <div class="row justify-content-center alert alert-danger mt-5" role="alert">
+    Registration failed: {{registrationFailureReason}}
+    </div>
+{% endif %}
+</div>
+
+
+{% endblock content %}
