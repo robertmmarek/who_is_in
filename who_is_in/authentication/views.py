@@ -75,6 +75,7 @@ def change_password(request):
     isFormCorrect = set(['old_password', 'new_password', 'new_password_repeat']).issubset(request.POST.keys())
     isNewPasswordRepeated = False if not isFormCorrect else (request.POST['new_password'] == request.POST['new_password_repeat'])
     isUserLogged = request.user.is_authenticated
+    path_name = request.GET.get('path_name')
 
     isOperationSuccess = False
     response = HttpResponse('')
@@ -90,9 +91,14 @@ def change_password(request):
         except Exception as e:
             print(type(e), e)
             isOperationSuccess = False
+    
+    if isUserLogged:
+        response = render(request, 'change_password.html', {'isFormCorrect': isFormCorrect, 
+                                                            'isNewPasswordRepeated': isNewPasswordRepeated, 
+                                                            'isUserLogged': isUserLogged,
+                                                            'isOperationSuccess': isOperationSuccess,
+                                                            'path_name': path_name})
     else:
-        response = HttpResponse(str({'isFormCorrect': isFormCorrect, 
-                                     'isNewPasswordRepeated': isNewPasswordRepeated, 
-                                     'isUserLogged': isUserLogged}))
+        response = HttpResponseRedirect(reverse('index'))
 
     return response
