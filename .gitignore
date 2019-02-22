@@ -2,3 +2,4 @@
 /who_is_in/.vscode/
 **/__pycache__
 **/db.sqlite3
+**/migrations
