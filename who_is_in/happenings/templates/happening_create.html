@@ -1,0 +1,60 @@
+{% extends "main_template.html" %}
+{% load static %}
+
+{% block title %}
+Create happening
+{% endblock title %}
+
+{% block content %}
+
+
+<div class="container">
+{% if not isLoginCorrect %}
+    <form action="{% url 'happening_create' %}" method="post" class="needs-validation" id="createHappeningForm">{% csrf_token %}
+        <div class="form-group">
+            <label for="happening_name">Name:</label>
+            <input type="text" id="happeningName" placeholder="Happening name" class="form-control" name="name" required>
+        </div>
+        <div class="form-group">
+            <label for="happening_date">Date and time:</label>
+            <input type="text" id="happeningDate" class="form-control" name="date" required>
+        </div>
+        <div class="form-group">
+            <label for="happening_description">Happening description:</label>
+            <textarea type="text" id="happeningDescription" class="form-control" name="description" rows="5" required>
+            </textarea>
+        </div>
+        <div class="form-group">
+            <label for="happening_max_participants">Maximum participants:</label>
+            <select class="custom-select form-control" id="happeningMaxParticipants" name="max_participants">
+                <option selected value="-1">I don't care</option>
+                {% for i in max_range %}
+                <option value="{{i}}">{{i}}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="form-group d-none" id="hashtags" name="test">
+        </div>
+        <div class="form-row justify-content-center">
+            <button type="submit" class="btn btn-primary">CREATE</button>
+        </div>
+    </form>
+    
+{% endif %}
+{% if not isSuccess and isFormCorrect %}
+    <div class="row justify-content-center alert alert-danger mt-5" role="alert">
+    Creation failed: {{creationFailureReason}}
+    </div>
+{% elif isSuccess and isFormCorrect %}
+    <div class="row justify-content-center alert alert-success mt-5" role="alert">
+    Creation successfull
+    </div>
+{% endif %}
+</div>
+
+
+{% endblock content %}
+
+{% block additional_scripts %}
+<script src="{% static 'happening_create.js' %}"></script>
+{% endblock %}
