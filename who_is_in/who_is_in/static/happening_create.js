@@ -7,7 +7,17 @@ let parseHashtags = function(text){
     return result;
 }
 
-$('input[name="date"]').daterangepicker();
+let date = document.getElementById('happeningDate');
+
+$('input[name="date_noniso"]').daterangepicker({
+    singleDatePicker: true,
+    showDropdowns: true,
+    timePicker: true,
+    startDate: moment().startOf('hour')
+}, function(start, end, label){
+    date.value = start.format('YYYY-MM-DD HH:MM:SS');
+    console.log(date.value);
+});
 
 window.addEventListener('load', function(){
     let form = document.getElementById('createHappeningForm');

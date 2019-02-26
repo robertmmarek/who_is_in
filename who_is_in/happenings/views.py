@@ -45,7 +45,7 @@ def happening_create(request):
     description = request.POST.get('description')
     max_participants = request.POST.get('max_participants')
     date = request.POST.get('date')
-    date = datetime.datetime.fromisoformat(date) if date != None else date
+    date = try_to_get_date(date) if date != None else None
     hashtags = request.POST.getlist('hashtag')
     print(hashtags)
 
@@ -84,6 +84,10 @@ def happening_detail(request, happening_id):
 def delete_happening(request, happening_id):
     handle_profile(request)
     return HttpResponse("delete_happening")
+
+def try_to_get_date(date_string):
+    newDateString = date_string.replace("/", "-")
+    return datetime.datetime.fromisoformat(newDateString)
 
 #check if argument is int
 def is_int(arg):

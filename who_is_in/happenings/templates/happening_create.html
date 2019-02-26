@@ -17,7 +17,7 @@ Create happening
         </div>
         <div class="form-group">
             <label for="happening_date">Date and time:</label>
-            <input type="text" id="happeningDate" class="form-control" name="date" required>
+            <input type="text" id="happeningDateSelection" class="form-control" name="date_noniso" required>
         </div>
         <div class="form-group">
             <label for="happening_description">Happening description:</label>
@@ -33,7 +33,10 @@ Create happening
                 {% endfor %}
             </select>
         </div>
-        <div class="form-group d-none" id="hashtags" name="test">
+        <div class="form-group d-none" id="misc">
+            <input type="text" class="form-control" id="happeningDate" name="date">
+        </div>
+        <div class="form-group d-none" id="hashtags">
         </div>
         <div class="form-row justify-content-center">
             <button type="submit" class="btn btn-primary">CREATE</button>
